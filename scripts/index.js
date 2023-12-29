@@ -29,7 +29,7 @@ function deleteCard (deleteButton) {
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach((item) => {
-    let card = createCard(item.link, item.name, deleteCard);
+    const card = createCard(item.link, item.name, deleteCard);
     addCard(card, deleteCard)
 })
 
