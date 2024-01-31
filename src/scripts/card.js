@@ -16,7 +16,7 @@ export function createCard(item, deleteCard, openImageModal, likeCard) {
     })
   
     cardImage.addEventListener('click', function() {
-      openImageModal(card)
+      openImageModal(item)
     })
     
     likeButton.addEventListener('click', likeCard)
