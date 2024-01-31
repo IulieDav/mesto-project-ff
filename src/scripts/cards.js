@@ -1,3 +1,4 @@
+//массив карточек, отображаемых на странице
 export const initialCards = [
     {
       name: "Архыз",
@@ -24,27 +25,3 @@ export const initialCards = [
       link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
     }
 ];
-
-
-// @todo: Функция создания карточки
-export function createCard(item, deleteCard) {
-  const cardTemplate = document.querySelector('#card-template').content;
-  const card = cardTemplate.querySelector('.card').cloneNode(true);
-  const deleteButton = card.querySelector('.card__delete-button');
-
-  card.querySelector('.card__title').textContent = item.name;
-  card.querySelector('.card__image').src = item.link;
-  card.querySelector('.card__image').alt = item.name;
-
-  deleteButton.addEventListener('click', function() {
-      deleteCard(card)
-  })
-   
-  return card
-}
-
-
-// @todo: Функция удаления карточки
-export function deleteCard(card) {
-  card.remove()
-}
