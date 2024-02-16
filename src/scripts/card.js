@@ -1,7 +1,7 @@
 import { deleteLikeOnServer,putLikeOnServer, deleteCardOnServer } from "./api";
 
 // Функция создания карточки
-export function createCard(cardData, deleteCard, openImageModal, likeCard) {
+export function createCard(cardData, deleteCard, openImageModal, likeCard, userId) {
     const cardTemplate = document.querySelector('#card-template').content;
     const card = cardTemplate.querySelector('.card').cloneNode(true);
     const cardImage = card.querySelector('.card__image');
@@ -14,7 +14,7 @@ export function createCard(cardData, deleteCard, openImageModal, likeCard) {
     cardImage.src = cardData.link;
     cardImage.alt = cardData.name;
 
-    if((cardData.owner._id === '2da6366607d7ce30b8385702')) {
+    if((cardData.owner._id === userId)) {
       deleteButton.style.display = 'block'; 
     } else {
       deleteButton.style.display = 'none';
@@ -55,7 +55,7 @@ export function createCard(cardData, deleteCard, openImageModal, likeCard) {
     } else {
       deleteLikeOnServer(cardData._id)
       .then((res) => {
-        updateLikes(res.likes.length, likeCounter);
+        updateLikes(res.likes.length, likeCounter)
       })
     }
   }

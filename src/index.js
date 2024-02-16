@@ -37,29 +37,29 @@ const validationConfig = {
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible'
 };
-let currentCard;
+
 let userId;
 
 
 enableValidation(validationConfig);
 
-
-getUserInfoFromServer()
-.then((res) => {
-    profileTitle.textContent = res.name;
-    profileDiscription.textContent = res.about;
-    profileImage.style.backgroundImage = `url(${res.avatar})`;
-  })
-
-
-// @todo: Вывести карточки на страницу
- getCardsFromServer()
+//загрузки данных пользователя и карточек и добавление их в DOM
+ Promise.all([getUserInfoFromServer(), getCardsFromServer()])
  .then((res) => {
-    res.forEach((item) => {
-       const card = createCard(item, deleteCard, openImageModal, likeCard);
+    const userInfo = res[0];
+    const cardsArray = res[1];
+    userId = userInfo._id;
+
+    profileTitle.textContent = userInfo.name;
+    profileDiscription.textContent = userInfo.about;
+    profileImage.style.backgroundImage = `url(${userInfo.avatar})`;
+
+    cardsArray.forEach((item) => {
+       const card = createCard(item, deleteCard, openImageModal, likeCard, userId);
         cardList.append(card);
     })
  })
+ 
 
 //Обработчик открытия попапов
 profileEditButton.addEventListener('click', function() {
@@ -165,7 +165,7 @@ function addCardFormSumbit(evt) {
 
     createCardOnServer(newCard)
     .then((cardData) => {
-        const card = createCard(cardData, deleteCard, openImageModal, likeCard);
+        const card = createCard(cardData, deleteCard, openImageModal, likeCard, userId);
         cardList.prepend(card);
     })
 
