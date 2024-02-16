@@ -25,3 +25,12 @@
 .popup_type_image {
   background-color: rgba(0, 0, 0, .9);
 }
+
+.popup__input_type_error {
+  border-bottom-color: red;
+}
+
+.popup__error_visible {
+  font-size: 12px;
+  color: #FF0000;
+}
