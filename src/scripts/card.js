@@ -1,8 +1,9 @@
 import { deleteLikeOnServer,putLikeOnServer, deleteCardOnServer } from "./api";
 
+const cardTemplate = document.querySelector('#card-template').content;
+
 // Функция создания карточки
 export function createCard(cardData, deleteCard, openImageModal, likeCard, userId) {
-    const cardTemplate = document.querySelector('#card-template').content;
     const card = cardTemplate.querySelector('.card').cloneNode(true);
     const cardImage = card.querySelector('.card__image');
     const deleteButton = card.querySelector('.card__delete-button');
@@ -32,7 +33,11 @@ export function createCard(cardData, deleteCard, openImageModal, likeCard, userI
       likeCard(evt, cardData, likeCounter)
     });
 
-    updateLikes(cardData.likes.length, likeCounter)
+    updateLikes(cardData.likes.length, likeCounter);
+
+    if(cardData.likes.find((like) => like._id === userId)) {
+      likeButton.classList.add('card__like-button_is-active')
+    }
 
     return card
   }
@@ -42,6 +47,9 @@ export function createCard(cardData, deleteCard, openImageModal, likeCard, userI
   export function deleteCard(card, cardData) {
     deleteCardOnServer(cardData._id)
     .then(card.remove())
+    .catch((err) => {
+      console.log(err);
+    })
   }
   
   //Функция лайка карточки
@@ -52,10 +60,16 @@ export function createCard(cardData, deleteCard, openImageModal, likeCard, userI
       .then((res) => {
         updateLikes(res.likes.length, likeCounter);
       })
+      .catch((err) => {
+        console.log(err);
+      })
     } else {
       deleteLikeOnServer(cardData._id)
       .then((res) => {
         updateLikes(res.likes.length, likeCounter)
+      })
+      .catch((err) => {
+        console.log(err);
       })
     }
   }
